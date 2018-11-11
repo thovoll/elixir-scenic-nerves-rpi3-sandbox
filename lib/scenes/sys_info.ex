@@ -18,7 +18,18 @@ defmodule EsnRpi3Sandbox.Scene.SysInfo do
   been routed to the UART pins.
   """
 
+  @line {{0, 0}, {60, 60}}
+
   @graph Graph.build(font_size: 22, font: :roboto_mono)
+         |> group(
+           fn g ->
+             g
+             |> line(@line, stroke: {4, :red})
+             |> line(@line, stroke: {20, :green}, cap: :butt, t: {60, 0})
+             |> line(@line, stroke: {20, :yellow}, cap: :round, t: {120, 0})
+           end,
+           t: {300, 30}
+         )
          |> group(
            fn g ->
              g
