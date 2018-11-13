@@ -1,0 +1,2 @@
+export MIX_TARGET=rpi3
+mix do deps.get, compile, nerves.release.init, firmware.burn

@@ -1,0 +1,2 @@
+export MIX_TARGET=host
+mix scenic.run
