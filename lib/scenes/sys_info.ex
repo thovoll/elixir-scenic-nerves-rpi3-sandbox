@@ -43,7 +43,7 @@ defmodule EsnRpi3Sandbox.Scene.SysInfo do
              |> line(@line, stroke: {20, :green}, cap: :butt, t: {60, 0})
              |> line(@line, stroke: {20, :yellow}, cap: :round, t: {120, 0})
            end,
-           t: {300, 240}
+           t: {400, 240}
          )
          |> group(
            fn g ->
