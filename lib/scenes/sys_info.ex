@@ -19,8 +19,23 @@ defmodule EsnRpi3Sandbox.Scene.SysInfo do
   """
 
   @line {{0, 0}, {60, 60}}
+  
+  @fonts [
+       "rubik/Rubik-Regular.ttf",
+       "rubik/Rubik-Bold.ttf"
+     ]
+     |> Enum.reduce(%{}, fn f, acc ->
+       hash_path = :code.priv_dir(:esn_rpi3_sandbox) |> Path.join("/static/fonts/#{f}")
+       font_path =
+         case @target do
+           "host" -> hash_path
+           _ -> "/srv/erlang/lib/#{Mix.Project.config()[:app]}-#{Mix.Project.config()[:version]}/priv/static/fonts/#{f}"
+         end
+       font_hash = Scenic.Cache.Hash.file!(hash_path, :sha)
+       acc |> Map.put(f, %{hash: font_hash, path: font_path})
+     end)
 
-  @graph Graph.build(font_size: 22, font: :roboto_mono)
+  @graph Graph.build(font_size: 22, font: @fonts["rubik/Rubik-Bold.ttf"].hash)
          |> group(
            fn g ->
              g
@@ -28,7 +43,7 @@ defmodule EsnRpi3Sandbox.Scene.SysInfo do
              |> line(@line, stroke: {20, :green}, cap: :butt, t: {60, 0})
              |> line(@line, stroke: {20, :yellow}, cap: :round, t: {120, 0})
            end,
-           t: {300, 30}
+           t: {300, 240}
          )
          |> group(
            fn g ->
@@ -79,7 +94,10 @@ defmodule EsnRpi3Sandbox.Scene.SysInfo do
     # styles: #{stringify_map(Map.get(info, :styles, %{a: 1, b: 2}))}
     # transforms: #{stringify_map(Map.get(info, :transforms, %{}))}
     # drivers: #{stringify_map(Map.get(info, :drivers))}
-
+    
+    Scenic.Cache.File.load(@fonts["rubik/Rubik-Regular.ttf"].path, @fonts["rubik/Rubik-Regular.ttf"].hash)
+    Scenic.Cache.File.load(@fonts["rubik/Rubik-Bold.ttf"].path, @fonts["rubik/Rubik-Bold.ttf"].hash)
+    
     graph =
       @graph
       |> Graph.modify(:vp_info, &text(&1, vp_info))
