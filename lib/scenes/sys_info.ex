@@ -101,7 +101,7 @@ defmodule EsnRpi3Sandbox.Scene.SysInfo do
     graph =
       @graph
       |> Graph.modify(:vp_info, &text(&1, vp_info))
-      |> Graph.modify(:device_list, &update_opts(&1, hidden: @target == "host"))
+      #|> Graph.modify(:device_list, &update_opts(&1, hidden: @target == "host"))
       |> push_graph()
 
     unless @target == "host" do
