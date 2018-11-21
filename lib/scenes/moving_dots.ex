@@ -5,7 +5,7 @@ defmodule EsnRpi3Sandbox.Scene.MovingDots do
   import Scenic.Primitives
 
   @graph Graph.build()
-         |> circle(30, fill: :red, id: :dot)
+         |> circle(20, fill: :red, id: :dot)
 
   @animate_ms 2
 
